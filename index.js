@@ -40,7 +40,15 @@ velocity:{
 offset:{
     x:0,
     y:0
-}});
+},
+imageSrc:'./img/Sprites/Idle.png',
+framesMax:8,
+scale:2.5,
+offset:{
+    x:180,
+    y:180
+}
+})
 
 
 

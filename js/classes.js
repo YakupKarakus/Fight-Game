@@ -9,7 +9,7 @@ class Sprite{
         this.framesMax=framesMax
         this.frameCurrent=0
         this.framesElapsed=0
-        this.framesHold=15
+        this.framesHold=5
         this.offset=offset
        
         
@@ -76,7 +76,7 @@ class Fighter extends Sprite {
         this.health=100
         this.frameCurrent=0
         this.framesElapsed=0
-        this.framesHold=15 
+        this.framesHold=5
         this.sprites=sprites
 
         for(const sprite in sprites){
@@ -100,12 +100,50 @@ class Fighter extends Sprite {
 
         if(this.position.y+this.height+this.velocity.y >= canvas.height-75){
             this.velocity.y=0
+            this.position.y=458
         }else this.velocity.y+=gravity
+
+        
     }
     attack(){
         this.isAttacking=true
         setTimeout(() => {
            this.isAttacking=false 
         }, 100);
+    }
+
+    switchSprite(sprite){
+        switch(sprite){
+                case 'idle':
+                    if(this.image!==this.sprites.idle.image){
+                        this.image=this.sprites.idle.image
+                        player.framesMax=player.sprites.idle.framesMax
+                        this.frameCurrent=0
+                    }
+                    
+                break
+                case 'run':
+                    if(this.image!==this.sprites.run.image){
+                        player.image=player.sprites.run.image
+                        player.framesMax=player.sprites.run.framesMax
+                        this.frameCurrent=0
+                    }
+                    
+                break
+                case 'jump':
+                    if(this.image!==this.sprites.jump.image){
+                    player.image=player.sprites.jump.image
+                    player.framesMax=player.sprites.jump.framesMax
+                    this.frameCurrent=0
+                    }
+                break
+                case 'fall':
+                    if(this.image!==this.sprites.fall.image){
+                    player.image=player.sprites.fall.image
+                    player.framesMax=player.sprites.fall.framesMax
+                    this.frameCurrent=0
+                    }
+                break
+        }
     }
 }

@@ -6,7 +6,7 @@ canvas.height=683;
 
 c.fillRect(0,0,canvas.width,canvas.height);
 
-const gravity=0.7
+const gravity=0.5
 
 const background=new Sprite({
     position:{
@@ -56,7 +56,17 @@ sprites:{
     run:{
         imageSrc:'./img/Sprites/Run.png',
         framesMax:8,
-        image:new Image()
+        
+    },
+    jump:{
+        imageSrc:'./img/Sprites/Jump.png',
+        framesMax:2,
+        
+    },
+    fall:{
+        imageSrc:'./img/Sprites/Fall.png',
+        framesMax:2,
+        
     }
 }
 })
@@ -109,15 +119,22 @@ function animate(){
     //enemy.update()
 
     //player movement
-    player.image=player.sprites.idle.image
+    
     player.velocity.x=0
     if(keys.a.pressed && player.lastKey==='a'){
         player.velocity.x=-5
-        player.image=player.sprites.run.image
+        player.switchSprite('run')
     }else if(keys.d.pressed && player.lastKey==='d'){
         player.velocity.x=5
-        player.image=player.sprites.run.image
+        player.switchSprite('run')
+    }else player.switchSprite('idle')
+
+    if(player.velocity.y<0){
+        player.switchSprite('jump')
+    }else if(player.velocity.y>0){
+        player.switchSprite('fall')
     }
+
     //enemy movement
     enemy.velocity.x=0
     if(keys.ArrowLeft.pressed && enemy.lastKey==='ArrowLeft'){

@@ -1,7 +1,7 @@
 const canvas=document.querySelector('canvas');
 const c=canvas.getContext('2d');
 
-canvas.width=1024;
+canvas.width=1890;
 canvas.height=576;
 
 c.fillRect(0,0,canvas.width,canvas.height);
@@ -25,6 +25,7 @@ class Sprite{
         }
         this.color=color
         this.isAttacking
+        this.health=100
     }
 
     draw(){
@@ -143,14 +144,44 @@ function animate(){
     // detect for collision
     if(rectangularCollision({rectangle1:player,rectangle2:enemy}) && player.isAttacking ){
         player.isAttacking=false
-        console.log('player attack')
+        enemy.health-=20
+        document.querySelector('#enemyHealth').style.width=enemy.health+'% '
+        
     }
 
     if(rectangularCollision({rectangle1:enemy,rectangle2:player}) && enemy.isAttacking ){
         enemy.isAttacking=false
-        console.log('enemy attack')
+        player.health-=20
+        document.querySelector('#playerHealth').style.width=player.health+'% '
+        
     }
+    // end game based on health
 }
+let timer=60
+function decreaseTimer(){
+    setTimeout(decreaseTimer,1000)
+    if(timer>0 ) {
+        setTimeout(decreaseTimer,1000)
+        timer--
+        document.querySelector('#timer').innerHTML=timer
+    }
+    if(timer===0)
+    {
+        document.querySelector('#displayText').style.display='flex'
+        if(player.health===enemy.health){
+            document.querySelector('#displayText').innerHTML='Tie'
+            
+        }else if(player.health>enemy.health){
+            document.querySelector('#displayText').innerHTML='Player Win'
+            
+        }else if(player.health<enemy.health){
+            document.querySelector('#displayText').innerHTML='Enemy Win'
+            
+        }
+    }
+    
+}
+decreaseTimer()
 animate()
 
 window.addEventListener('keydown',(event)=>{
